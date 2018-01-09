@@ -28,7 +28,7 @@ lists = [[] for i in xrange(weeks)]
 # Why do the bye week players get skipped and what does the '$0' thing mean 
 #	in the inspected element
 # I need to loop the projects beecause otherwsie column 23 will keep overwriting
-$	itself
+#	itself
 while (x<=weeks):   
 	#Because we want the first 140 players. It's doing something weird where
 	# it reloads the page and just grabs the top one in the row 
