@@ -34,7 +34,7 @@ while (x<=weeks):
 	# it reloads the page and just grabs the top one in the row 
 	#and change the start ponit in the table cause you can change the URL to
 	# do that. NVM it's grabbing all then doing +40. Duh,cause that's the counter.
-		soup = BeautifulSoup(urllib2.urlopen("{}{}{}".format(url[0]+ str(x) + url[1])).read(), 'html.parser')
+		soup = BeautifulSoup(urllib2.urlopen("{}{}{}".format(url[0], x, url[1])).read(), 'html.parser')
 
 		# This basically locates the table and grabs all of its infor
 		tableStats = soup.find("table", {"class": "playerTableTable tableBody"}) 
