@@ -5,8 +5,9 @@ from bs4 import BeautifulSoup
 import urllib2
 
 # CONSTANT VARIABLES
-output_file_path = os.path.join(os.getcwd(), "OutFFQBs2.txt")
-error_file_path = os.path.join(os.getcwd(), "ErrorfileFFQBs2.txt")
+output_file_path = os.path.join(os.getcwd(), "OutFFQBs2.txt") 
+error_file_path = os.path.join(os.getcwd(), "ErrorfileFFQBs2.txt") #os.path.join does some magic shit where it finds 
+#the path you're using and copies it in and saves the file there so that you can run this program on any computer
 
 f = open(output_file_path,'w')
 errorFile = open(error_file_path,'w')
@@ -16,14 +17,14 @@ url = [
 	"D&scoringPeriodId=",
 	"&seasonId=2017&slotCategoryId=0&startIndex=0"
 ]
-
+#http://games.espn.com/ffl/leaders?&sortMap=AAAAARgAAAADAQAIY2F0ZWdvcnkDAAAAAwEABmNvbHVtbgMAAAABAQAJZGlyZWN0aW9uAwAAAAE%3D&scoringPeriodId=1&seasonId=2017&slotCategoryId=0&startIndex=0
 
 # Open page. Copy QBS - make a tuple out of that. I don't think I can do that 
 #	with a findall
 x=0
 y=1
 weeks = 17
-nameQB=	[]
+listnameQB = ["List of QBs"]
 lists = [[] for i in xrange(weeks)]	
 # Why do the bye week players get skipped and what does the '$0' thing mean 
 #	in the inspected element
@@ -41,6 +42,9 @@ while (x<=weeks):
 		
 		# This is what loops through the data. The [2:]: is somethign that 
 		# says we want to start at number 2 and go throgugh the end
+		j=x-1	
+		weeknumb = "Week: " + str(x)
+		lists[j].insert(0, weeknumb)	
 		for row in tableStats.findAll('tr')[2:]: 
 				col = row.findAll('td')
 
@@ -48,12 +52,19 @@ while (x<=weeks):
 					#.a = it's a link... we're asking for the text of the link. 
 					# In this case were grabbig the player name				
 					proj = col[23].string.strip() 
-					float(proj)
-					#print(name)
-					#nameQB.append(name)
-					#nameQB.encode("ascii")
-					lists[x].append(proj)
-					print(lists)	
+					proj = float(proj)
+					#name = col[1].a.string.strip()
+					#name = str(name)
+					#listnameQB.append(name)
+					
+					#Do something where I insert "week x in the front of each list"
+					
+						
+					lists[j].append(proj)
+					if x == 1:
+						name = col[0].a.string.strip()
+						listnameQB.append(name)
+					
 				except Exception as e:
 					errorFile.write (str(x)+ '*********' + str(e)+ '*********' + str(col) +'\n')
 
@@ -65,7 +76,19 @@ while (x<=weeks):
 
 
 
+print(listnameQB)
+print(lists)
+print(len(lists))
+#Which QB do you want to see
+query = input("What QB do you want to see? " #Type in the number of the element which the desired QB is. 
+	#e.g. Blake bortles is 6th so type in number 6 to see his projecs
+numbers = [item[query] for item in lists]
+output = []
+output.append(listnameQB[query])
+output.append(numbers) #bye weeks are skipped in the projection list which screws this up. This is a beautiful soup thing?
+# I need to get the html of '--' to read as '0'
+print(output)
 
+#output.append()
 
-f.close
 errorFile.close
