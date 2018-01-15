@@ -64,7 +64,7 @@ while (x<=weeks):
 					if x == 1:
 						name = col[0].a.string.strip()
 						listnameQB.append(name)
-					
+				#write an except line that says if Column 2 equals "bye" then pull the string that says "--" in column 23 and then replace it with a 0	
 				except Exception as e:
 					errorFile.write (str(x)+ '*********' + str(e)+ '*********' + str(col) +'\n')
 
@@ -80,15 +80,30 @@ print(listnameQB)
 print(lists)
 print(len(lists))
 #Which QB do you want to see
-query = input("What QB do you want to see? " #Type in the number of the element which the desired QB is. 
+query = input("What QB do you want to see? ")#Type in the number of the element which the desired QB is. 
 	#e.g. Blake bortles is 6th so type in number 6 to see his projecs
-numbers = [item[query] for item in lists]
-output = []
-output.append(listnameQB[query])
-output.append(numbers) #bye weeks are skipped in the projection list which screws this up. This is a beautiful soup thing?
+##numbers = [item[query] for item in lists] #what exactly is this line doing? 
+##output = []
+##output.append(listnameQB[query])
+##output.append(numbers) #bye weeks are skipped in the projection list which screws this up. This is a beautiful soup thing?
 # I need to get the html of '--' to read as '0'
-print(output)
-
+##print(output)
+count =0
 #output.append()
+individuallist = []
+#Call a player and find his correllatig 
+if query in listnameQB:	#I think this is redundant to teh lines that create 'numbers' and 'output' but I think this is a
+#better way to do it because you can type in the player name
+	position = listnameQB.index(query)
+	while count < len(lists):
+		individuallist.append(lists[count][position])
+		count=count+1
+	individualdict = {query:individuallist}
+	print (individualdict)
+
+else: 
+	print("I don't see the name of that player")
+
+
 
 errorFile.close
